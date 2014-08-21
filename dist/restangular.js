@@ -36,7 +36,7 @@ module.provider('Restangular', function() {
      * This is the BaseURL to be used with Restangular
      */
     config.baseUrl = _.isUndefined(config.baseUrl) ? '' : config.baseUrl;
-    config.baseUrlRoot = config.baseUrl;
+    config.baseUrlRoot = _.isUndefined(config.baseUrlRoot) ? config.baseUrl : config.baseUrlRoot;
     object.setBaseUrl = function(newBaseUrl) {
       config.baseUrl = /\/$/.test(newBaseUrl) ?
         newBaseUrl.substring(0, newBaseUrl.length-1) :
@@ -44,8 +44,8 @@ module.provider('Restangular', function() {
       // remember the root path of the url for path-absolute-host-relative
       // self links such as /api/v1/resource/1
       var matches = /^(https?:\/\/[^\/]+)\//i.exec(config.baseUrl);
-      if (matches && matches.length == 2) {
-        config.baseUrlRoot = config.baseUrl.substr(0, matches[1]);
+      if (matches) {
+        config.baseUrlRoot = config.baseUrl.substr(0, matches[1].length);
       }
       return this;
     };
